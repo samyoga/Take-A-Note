@@ -1,18 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
+
     <TextView
+        android:id="@+id/textHamro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:fontFamily="sans-serif"
+        android:text="Hamro"
+        android:textColor="@color/textColor"
+        android:textSize="24dp"
+        android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textVidhyalaya"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textHamro"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif"
+        android:text="Vidhyalaya"
+        android:textColor="@color/textColor"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
+
+
+    <EditText
+        android:id="@+id/usernameid"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/borderlogin"
+        android:hint="Username"
+        android:paddingLeft="6dp" />
+
+
+
+    <EditText
+
+        android:id="@+id/passwordid"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_below="@+id/usernameid"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/borderlogin"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingLeft="6dp" />
+
+
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_below="@id/passwordid"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:background="@color/colorSilver" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/circular_edge_button"
+        android:text="LOGIN"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Forgot Password?" />
+
+</RelativeLayout>
