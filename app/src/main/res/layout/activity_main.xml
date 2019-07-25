@@ -100,4 +100,10 @@
         android:layout_marginTop="24dp"
         android:text="Forgot Password?" />
 
+    <TextView
+        android:id="@+id/log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 </RelativeLayout>

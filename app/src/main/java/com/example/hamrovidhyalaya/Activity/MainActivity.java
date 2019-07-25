@@ -7,14 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.hamrovidhyalaya.R;
 import com.example.hamrovidhyalaya.models.Login;
 
+import java.util.UUID;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @BindView(R.id.login)
     Button loginBtn;
+
+    @BindView(R.id.log)
+    TextView log;
 
     Realm realm;
 
@@ -43,6 +49,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View view){
         writeToDB(usernameId.getText().toString().trim(), passwordId.getText().toString().trim());
+        showData();
+    }
+
+    public void showData(){
+        RealmResults<Login> studentResults = realm.where(Login.class).findAll();
+
+        String op = "";
+        realm.beginTransaction();
+        for (Login guest:studentResults){
+            op+=guest.toString();
+        }
+
+        log.setText(op);
     }
 
     public void writeToDB(final String username, final String password){
@@ -50,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               @Override
               public void execute(Realm bgRealm) {
 
-                  Login user = bgRealm.createObject(Login.class);
+                  Login user = bgRealm.createObject(Login.class, UUID.randomUUID().toString());
                   user.setUsername(username);
                   user.setPassword(password);
 
