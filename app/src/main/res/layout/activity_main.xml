@@ -98,7 +98,7 @@
         android:layout_below="@id/login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:text="No Account? Sign up" />
+        android:text="No account? Sign up" />
 
     <TextView
         android:id="@+id/log"
