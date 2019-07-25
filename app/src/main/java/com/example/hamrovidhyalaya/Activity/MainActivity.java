@@ -2,6 +2,7 @@ package com.example.hamrovidhyalaya.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.log)
     TextView log;
 
+    @BindView(R.id.signUp)
+    TextView signUp;
+
     Realm realm;
 
     @Override
@@ -44,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginBtn.setOnClickListener(this);
 
         realm = Realm.getDefaultInstance();
+
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginBtn.setText("Sign Up");
+            }
+        });
 
     }
 
@@ -61,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             op+=guest.toString();
         }
 
-        log.setText(op);
+//        log.setText(op);
     }
 
     public void writeToDB(final String username, final String password){
