@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:background="@color/colorPrimary"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
 
     <TextView

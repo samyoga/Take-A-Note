@@ -1,22 +1,17 @@
 package com.example.hamrovidhyalaya;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
+import android.app.Application;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MyApplication extends Application {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    public void onCreate() {
+        super.onCreate();
         Realm.init(this);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .name("login.realm")
+                .name("tasky.realm")
                 .schemaVersion(0)
                 .build();
         Realm.setDefaultConfiguration(realmConfig);
