@@ -11,7 +11,7 @@ public class MyApplication extends Application {
         super.onCreate();
         Realm.init(this);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .name("tasky.realm")
+                .name("login.realm")
                 .schemaVersion(0)
                 .build();
         Realm.setDefaultConfiguration(realmConfig);
