@@ -9,9 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hamrovidhyalaya.R;
 import com.example.hamrovidhyalaya.models.Login;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.UUID;
 
@@ -20,7 +22,7 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.usernameid)
     EditText usernameId;
@@ -45,9 +47,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        loginBtn.setOnClickListener(this);
-
         realm = Realm.getDefaultInstance();
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (usernameId.length() == 0){
+                    showSnackBar("Enter username");
+                    usernameId.requestFocus();
+                } else if (passwordId.length() == 0){
+                    showSnackBar("Enter Password");
+                    passwordId.requestFocus();
+                }
+//                showData();
+            }
+
+            private boolean checkUser(String username, String password){
+                RealmResults<Login> realmObjects = realm.where(Login.class).findAll();
+                for (Login userDetails : realmObjects) {
+                    if (username.equals(userDetails.getUsername()) && password.equals(userDetails.getPassword())) {
+                        Log.d("User Details", userDetails.getUsername());
+                        return true;
+                    }
+            }
+                Log.d("Value", String.valueOf(realm.where(Login.class).contains("username", username)));
+                return false;
+            }
+        });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-    }
-
-    public void onClick(View view){
-        writeToDB(usernameId.getText().toString().trim(), passwordId.getText().toString().trim());
-        showData();
     }
 
     public void showData(){
@@ -76,28 +97,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        log.setText(op);
     }
 
-    public void writeToDB(final String username, final String password){
-        realm.executeTransactionAsync(new Realm.Transaction() {
-              @Override
-              public void execute(Realm bgRealm) {
-
-                  Login user = bgRealm.createObject(Login.class, UUID.randomUUID().toString());
-                  user.setUsername(username);
-                  user.setPassword(password);
-
-              }
-          }, new Realm.Transaction.OnSuccess() {
-              @Override
-              public void onSuccess() {
-                  Log.v("Database", "Data inserted");
-              }
-          }, new Realm.Transaction.OnError() {
-              @Override
-              public void onError(Throwable error) {
-                  Log.e("Database", error.getMessage());
-              }
-          }
-        );
+    private void showSnackBar(String msg) {
+        try {
+            Snackbar.make(findViewById(R.id.content), msg, Snackbar.LENGTH_SHORT).show();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
