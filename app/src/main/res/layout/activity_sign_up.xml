@@ -67,14 +67,26 @@
         android:inputType="textPassword"
         android:paddingLeft="6dp" />
 
+    <EditText
 
-
+        android:id="@+id/repasswordid"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_below="@+id/passwordid"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/borderlogin"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:paddingLeft="6dp" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="36dp"
         android:layout_height="4dp"
-        android:layout_below="@id/passwordid"
+        android:layout_below="@id/repasswordid"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="56dp"
         android:background="@color/colorSilver" />

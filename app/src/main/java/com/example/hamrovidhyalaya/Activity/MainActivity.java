@@ -2,6 +2,7 @@ package com.example.hamrovidhyalaya.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,9 @@ import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity{
 
+    private static final String TAG = "LoginActivity";
+    private static final int REQUEST_SIGNUP = 0;
+
     @BindView(R.id.usernameid)
     EditText usernameId;
 
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity{
     TextView log;
 
     @BindView(R.id.signUp)
-    TextView signUp;
+    TextView signUpLink;
 
     Realm realm;
 
@@ -47,64 +51,169 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        Realm.init(this);
         realm = Realm.getDefaultInstance();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (usernameId.length() == 0){
-                    showSnackBar("Enter username");
-                    usernameId.requestFocus();
-                } else if (passwordId.length() == 0){
-                    showSnackBar("Enter Password");
-                    passwordId.requestFocus();
-                }
+
+                login();
+//                Intent intent=new Intent(MainActivity.this, Main2Activity.class);
+//                startActivity(intent);
+//                if (usernameId.length() == 0){
+//                    showSnackBar("Enter username");
+//                    usernameId.requestFocus();
+//                } else if (passwordId.length() == 0){
+//                    showSnackBar("Enter Password");
+//                    passwordId.requestFocus();
+//                }
 //                showData();
             }
 
-            private boolean checkUser(String username, String password){
-                RealmResults<Login> realmObjects = realm.where(Login.class).findAll();
-                for (Login userDetails : realmObjects) {
-                    if (username.equals(userDetails.getUsername()) && password.equals(userDetails.getPassword())) {
-                        Log.d("User Details", userDetails.getUsername());
-                        return true;
-                    }
-            }
-                Log.d("Value", String.valueOf(realm.where(Login.class).contains("username", username)));
-                return false;
-            }
+//            private boolean checkUser(String username, String password){
+//                RealmResults<Login> realmObjects = realm.where(Login.class).findAll();
+//                for (Login userDetails : realmObjects) {
+//                    if (username.equals(userDetails.getUsername()) && password.equals(userDetails.getPassword())) {
+//                        Log.d("User Details", userDetails.getUsername());
+//                        return true;
+//                    }
+//            }
+//                Log.d("Value", String.valueOf(realm.where(Login.class).contains("username", username)));
+//                return false;
+//            }
         });
 
-        signUp.setOnClickListener(new View.OnClickListener() {
+        signUpLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_SIGNUP);
+                finish();
             }
         });
 
     }
 
-    public void showData(){
-        RealmResults<Login> studentResults = realm.where(Login.class).findAll();
+    public void login() {
+        Log.d(TAG, "Login");
 
-        String op = "";
-        realm.beginTransaction();
-        for (Login guest:studentResults){
-            op+=guest.toString();
+        if (!validate()) {
+            onLoginFailed();
+            return;
         }
 
-//        log.setText(op);
+        loginBtn.setEnabled(false);
+
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.show();
+
+        String username = usernameId.getText().toString();
+        String password = passwordId.getText().toString();
+
+        // TODO: Implement your own authentication logic here.
+
+        RealmResults<Login> results = realm.where(Login.class).findAllAsync();
+        for (Login login:results) {
+            if (username.equals(login.getUsername()) && password.equals(login.getPassword())) {
+                Log.e(TAG, login.getUsername());
+                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MainActivity.this, Main2Activity.class);
+                startActivity(intent);
+            }else {
+                Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onLoginSuccess or onLoginFailed
+                        onLoginSuccess();
+                        // onLoginFailed();
+                        progressDialog.dismiss();
+                    }
+                }, 3000);
     }
 
-    private void showSnackBar(String msg) {
-        try {
-            Snackbar.make(findViewById(R.id.content), msg, Snackbar.LENGTH_SHORT).show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SIGNUP) {
+            if (resultCode == RESULT_OK) {
+
+                // TODO: Implement successful signup logic here
+                // By default we just finish the Activity and log them in automatically
+                this.finish();
+            }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        // Disable going back to the LocationActivity
+        moveTaskToBack(true);
+    }
+
+    public void onLoginSuccess() {
+        loginBtn.setEnabled(true);
+        finish();
+    }
+
+    public void onLoginFailed() {
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+
+        loginBtn.setEnabled(true);
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String username = usernameId.getText().toString();
+        String password = passwordId.getText().toString();
+
+        if (username.isEmpty() || username.length()<3) {
+            usernameId.setError("Enter proper username");
+            valid = false;
+        } else {
+            usernameId.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+            passwordId.setError("between 4 and 10 alphanumeric characters");
+            valid = false;
+        } else {
+            passwordId.setError(null);
+        }
+
+        return valid;
+
+
+    }
+
+//    public void showData(){
+//        RealmResults<Login> studentResults = realm.where(Login.class).findAll();
+//
+//        String op = "";
+//        realm.beginTransaction();
+//        for (Login guest:studentResults){
+//            op+=guest.toString();
+//        }
+//
+////        log.setText(op);
+//    }
+//
+//    private void showSnackBar(String msg) {
+//        try {
+//            Snackbar.make(findViewById(R.id.content), msg, Snackbar.LENGTH_SHORT).show();
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     @Override
     protected void onDestroy(){
