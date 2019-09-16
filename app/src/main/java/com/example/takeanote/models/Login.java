@@ -1,4 +1,4 @@
-package com.example.hamrovidhyalaya.models;
+package com.example.takeanote.models;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

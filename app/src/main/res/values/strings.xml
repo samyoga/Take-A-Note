@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">HamroVidhyalaya</string>
+    <string name="app_name">TakeANote</string>
+    <string name="TakeANote">Take A Note</string>
+    <string name="loading">Loading...</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.hamrovidhyalaya;
+package com.example.takeanote;
 
 import org.junit.Test;
 

@@ -18,23 +18,19 @@
         android:layout_centerHorizontal="true"
         android:clickable="true"
         android:fontFamily="sans-serif"
-        android:text="Hamro"
+        android:text="Take A Note"
         android:textColor="@color/textColor"
         android:textSize="24dp"
         android:textStyle="bold" />
 
-    <TextView
+    <ImageView
         android:id="@+id/textVidhyalaya"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textHamro"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:fontFamily="sans-serif"
-        android:text="Vidhyalaya"
-        android:textColor="@color/textColor"
-        android:textSize="24dp"
-        android:textStyle="bold" />
+        android:src="@drawable/ic_launcher"/>
 
 
 

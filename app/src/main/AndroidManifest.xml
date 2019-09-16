@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.hamrovidhyalaya">
+    package="com.example.takeanote">
 
     <application
         android:name=".MyApplication"
@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Main2Activity"></activity>
+        <activity android:name=".Activity.ShowNoteActivity"></activity>
+        <activity android:name=".Activity.AddNoteActivity" />
         <activity android:name=".Activity.SignUpActivity" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

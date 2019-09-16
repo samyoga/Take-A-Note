@@ -1,4 +1,4 @@
-package com.example.hamrovidhyalaya.Activity;
+package com.example.takeanote.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,11 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hamrovidhyalaya.R;
-import com.example.hamrovidhyalaya.models.Login;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.UUID;
+import com.example.takeanote.R;
+import com.example.takeanote.models.Login;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
 
                 login();
-//                Intent intent=new Intent(MainActivity.this, Main2Activity.class);
+//                Intent intent=new Intent(MainActivity.this, AddNoteActivity.class);
 //                startActivity(intent);
 //                if (usernameId.length() == 0){
 //                    showSnackBar("Enter username");
@@ -121,7 +118,7 @@ public class MainActivity extends AppCompatActivity{
             if (username.equals(login.getUsername()) && password.equals(login.getPassword())) {
                 Log.e(TAG, login.getUsername());
                 Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(MainActivity.this, Main2Activity.class);
+                Intent intent=new Intent(MainActivity.this, AddNoteActivity.class);
                 startActivity(intent);
             }else {
                 Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();

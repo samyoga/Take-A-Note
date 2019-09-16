@@ -1,8 +1,7 @@
-package com.example.hamrovidhyalaya.Activity;
+package com.example.takeanote.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,16 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hamrovidhyalaya.R;
-import com.example.hamrovidhyalaya.models.Login;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.takeanote.R;
+import com.example.takeanote.models.Login;
 
 import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -98,7 +95,6 @@ public class SignUpActivity extends AppCompatActivity {
         userCredentials.setUsername(username);
         userCredentials.setPassword(password);
         realm.commitTransaction();
-        finish();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
